@@ -77,7 +77,7 @@
   if (MOTION) {
     const heroSlides = $(".hero__slides");
     const hero = $(".hero");
-    $$(".shot, .strip-item, .kind__img").forEach((el) => el.classList.add("px"));
+    $$(".shot, .kind__img").forEach((el) => el.classList.add("px"));
     const visible = new Set();
     const vio = new IntersectionObserver((entries) => {
       entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
@@ -109,8 +109,193 @@
     queue();
   }
 
-  if (MOTION) $$(".strip-item").forEach((el) => el.setAttribute("data-reveal", "zoom"));
   $$("[data-reveal]").forEach((el) => revealer.observe(el));
+
+  /* ---------- recent moments: prints hanging on ribbons, swaying in a breeze ---------- */
+  // Each print is a damped pendulum on its own ribbon. A travelling wind field
+  // (steady breeze + turbulence + occasional gusts) pushes them; the print lags
+  // behind its ribbon, twists on it, and casts a shadow on the wall behind.
+  const strip = $(".strip");
+  if (strip && root.classList.contains("js")) {
+    const items = $$(".strip-item", strip);
+    const still = !MOTION;
+    const LABEL = { maternity: "Maternity", newborn: "Newborn", family: "Family", kids: "Kids & pets" };
+    const BOW = `<svg class="print__bow" viewBox="0 0 44 28" aria-hidden="true"><path class="bow__tail" d="M20 13 L13 27 M24 13 L31 27"/><path d="M22 12 C14 1 3 3 5 12 C3 21 14 23 22 12 Z"/><path d="M22 12 C30 1 41 3 39 12 C41 21 30 23 22 12 Z"/><path class="bow__fold" d="M8 9 C12 8 17 10 20 12 M36 9 C32 8 27 10 24 12"/><ellipse cx="22" cy="12" rx="3.6" ry="4.2"/></svg>`;
+    strip.classList.add("is-wall");
+    const shadowLayer = document.createElement("div");
+    shadowLayer.className = "wall__shadows";
+    strip.prepend(shadowLayer);
+
+    const nodes = items.map((a, i) => {
+      const hang = document.createElement("div");
+      hang.className = "hang";
+      hang.innerHTML = `<svg class="hang__ribbon" aria-hidden="true"><path class="r1"/><path class="r2"/><ellipse class="knot" cx="0" cy="0" rx="5" ry="6.5"/></svg>`;
+      const cat = (a.getAttribute("href").split("#")[1] || "");
+      a.classList.add("print");
+      a.insertAdjacentHTML("beforeend", `<span class="print__label" aria-hidden="true">${LABEL[cat] || ""}</span>${BOW}<span class="print__sheen" aria-hidden="true"></span>`);
+      hang.appendChild(a);
+      strip.appendChild(hang);
+      const shadow = document.createElement("div");
+      shadow.className = "hang__shadow";
+      shadowLayer.appendChild(shadow);
+      const seed = Math.sin(i * 12.9898) * 43758.5453;
+      const rnd = seed - Math.floor(seed);
+      return {
+        i, a, hang, shadow, rnd,
+        r1: $(".r1", hang), r2: $(".r2", hang),
+        ang: (rnd - 0.5) * 0.12, va: 0, d: 0, vd: 0, tw: (rnd - 0.5) * 0.3, vt: 0, push: 0,
+        px: 0, py: 0, L: 100, leff: 200, w: 180, h: 260, F: 0
+      };
+    });
+
+    let rails = [];
+    const layout = () => {
+      const W = strip.clientWidth;
+      const pw = Math.round(Math.max(128, Math.min(210, W * 0.17)));
+      const ph = Math.round((pw - 20) * 1.25 + 52);
+      const N = Math.min(nodes.length, Math.max(2, Math.floor((W - pw) / (pw * 0.55)) + 1));
+      const rows = Math.ceil(nodes.length / N);
+      const short = Math.round(ph * 0.1) + 26;
+      const long = short + ph + 16;
+      const rowH = 22 + long + ph + 56;
+      rails.forEach((r) => r.remove());
+      rails = [];
+      for (let r = 0; r < rows; r++) {
+        const rail = document.createElement("div");
+        rail.className = "wall__rail";
+        rail.style.top = `${r * rowH + 14}px`;
+        strip.insertBefore(rail, shadowLayer.nextSibling);
+        rails.push(rail);
+      }
+      nodes.forEach((n) => {
+        const r = Math.floor(n.i / N);
+        const c = n.i % N;
+        const inRow = Math.min(N, nodes.length - r * N);
+        n.px = inRow === 1 ? W / 2 : pw / 2 + ((W - pw) * c) / (inRow - 1);
+        n.py = r * rowH + 18;
+        n.L = (c % 2 ? long : short) + Math.round(n.rnd * 18);
+        // long ribbons hang behind their short neighbours, as they would on a real rail
+        n.hang.style.zIndex = c % 2 ? 2 : 3;
+        n.w = pw; n.h = ph;
+        n.leff = n.L + ph * 0.55;
+        Object.assign(n.a.style, { width: `${pw}px`, left: `${-pw / 2}px`, top: `${n.L}px` });
+        Object.assign(n.shadow.style, { width: `${pw}px`, height: `${ph}px`, left: `${-pw / 2}px` });
+      });
+      strip.style.height = `${rows * rowH}px`;
+    };
+
+    // wind: a steady breeze that wanders, travelling left to right, plus gusts
+    const gusts = [];
+    let nextGust = 3;
+    const wind = (x, t) => {
+      const u = t * 0.35 - x / 900;
+      const n = (Math.sin(u * 2.1) + 0.5 * Math.sin(u * 3.7 + 1.3) + 0.3 * Math.sin(u * 7.3 + 0.7)) / 1.8;
+      let f = 120 + 150 * n;
+      for (const g of gusts) {
+        const k = t - g.t0 - x / g.v;
+        f += g.a * Math.exp(-(k * k) / (2 * g.s * g.s));
+      }
+      return f;
+    };
+
+    const G = 4200;
+    const step = (dt, t) => {
+      if (t > nextGust) {
+        gusts.push({ t0: t, a: 180 + Math.random() * 300, v: 700 + Math.random() * 600, s: 0.35 + Math.random() * 0.5 });
+        nextGust = t + 4 + Math.random() * 7;
+      }
+      while (gusts.length && t - gusts[0].t0 > 8) gusts.shift();
+      for (const n of nodes) {
+        const F = wind(n.px, t) + 70 * Math.sin(t * (1.1 + n.i * 0.23) + n.i * 1.7);
+        n.F = F;
+        // ribbon + print as one pendulum: gravity, air damping, wind
+        const aa = -(G / n.leff) * Math.sin(n.ang) - 0.55 * n.va + (F * Math.cos(n.ang)) / n.leff + n.push;
+        n.va += aa * dt;
+        n.ang += n.va * dt;
+        n.push *= Math.exp(-dt * 10);
+        // the print hangs from a bow, so it trails the ribbon and catches more wind
+        const ad = -70 * n.d - 5 * n.vd - aa * 1.5 + (F - 180) * 0.018;
+        n.vd += ad * dt;
+        n.d += n.vd * dt;
+        // twisting on the ribbon
+        const at = -8 * n.tw - 0.9 * n.vt + 1.6 * Math.sin(t * (0.7 + n.i * 0.11) + n.i * 2.3) + (F - 180) * 0.004 * (n.i % 2 ? 1 : -1);
+        n.vt += at * dt;
+        n.tw = Math.max(-0.7, Math.min(0.7, n.tw + n.vt * dt));
+      }
+    };
+
+    const render = () => {
+      for (const n of nodes) {
+        n.hang.style.transform = `translate(${n.px.toFixed(1)}px,${n.py.toFixed(1)}px) rotate(${n.ang.toFixed(4)}rad)`;
+        n.a.style.transform = `rotate(${n.d.toFixed(4)}rad) rotateY(${n.tw.toFixed(3)}rad)`;
+        n.a.style.setProperty("--tw", n.tw.toFixed(3));
+        // ribbon bows slightly with the wind and with the print's lag
+        const cx = (-n.d * n.L * 0.9 + (n.F - 180) * 0.03).toFixed(1);
+        const dpath = `M0 0 Q ${cx} ${(n.L * 0.5).toFixed(1)} 0 ${n.L}`;
+        n.r1.setAttribute("d", dpath);
+        n.r2.setAttribute("d", dpath);
+        const ax = n.px - Math.sin(n.ang) * n.L;
+        const ay = n.py + Math.cos(n.ang) * n.L;
+        n.shadow.style.transform = `translate(${(ax + 12).toFixed(1)}px,${(ay + 22).toFixed(1)}px) rotate(${(n.ang + n.d).toFixed(4)}rad) scaleX(${Math.cos(n.tw).toFixed(3)})`;
+      }
+    };
+
+    layout();
+    render();
+    new ResizeObserver(() => { layout(); render(); }).observe(strip);
+
+    if (!still) {
+      let running = false;
+      let started = false;
+      let last = 0;
+      let t = 0;
+      let acc = 0;
+      const H = 1 / 120;
+      const tick = (now) => {
+        if (!running) return;
+        acc += Math.min(0.05, (now - last) / 1000);
+        last = now;
+        while (acc >= H) { step(H, t); t += H; acc -= H; }
+        render();
+        requestAnimationFrame(tick);
+      };
+      new IntersectionObserver(([e]) => {
+        running = e.isIntersecting;
+        if (!running) return;
+        if (!started) {
+          started = true;
+          // a first gust sweeps across as the wall comes into view
+          gusts.push({ t0: t + 0.15, a: 520, v: 1000, s: 0.45 });
+        }
+        last = performance.now();
+        requestAnimationFrame(tick);
+      }, { rootMargin: "100px 0px" }).observe(strip);
+
+      // brushing past a print with the pointer sets it swinging
+      let lx = null;
+      let lt = 0;
+      strip.addEventListener("pointermove", (e) => {
+        const now = performance.now();
+        if (lx !== null && now > lt) {
+          const vx = Math.max(-3000, Math.min(3000, ((e.clientX - lx) / (now - lt)) * 1000));
+          const box = strip.getBoundingClientRect();
+          const x = e.clientX - box.left;
+          const y = e.clientY - box.top;
+          for (const n of nodes) {
+            const ax = n.px - Math.sin(n.ang) * n.L;
+            const ay = n.py + Math.cos(n.ang) * n.L;
+            if (x > ax - n.w / 2 && x < ax + n.w / 2 && y > ay && y < ay + n.h) {
+              n.push = Math.max(-9, Math.min(9, n.push + (vx * 0.9) / n.leff));
+              n.vt += vx * 0.0006 * (x < ax ? -1 : 1);
+            }
+          }
+        }
+        lx = e.clientX;
+        lt = now;
+      });
+      strip.addEventListener("pointerleave", () => { lx = null; });
+    }
+  }
 
   /* ---------- camera intro ---------- */
   // The timeline itself is CSS; the inline <head> script marks it done after the
@@ -238,6 +423,30 @@
       $(".shot__alt", a).textContent = alt;
       if (MOTION) { s.setAttribute("data-reveal", ""); revealer.observe(s); }
     });
+    // Hover depth: the focused photo tilts toward the pointer, a glare follows it,
+    // and the darkened backdrop keeps a pool of light centred on it.
+    if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      let cur = null;
+      gallery.addEventListener("pointermove", (e) => {
+        const s = e.target.closest(".shot");
+        if (!s) return;
+        if (cur && cur !== s) { cur.style.removeProperty("--rx"); cur.style.removeProperty("--ry"); }
+        cur = s;
+        const r = s.getBoundingClientRect();
+        const fx = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+        const fy = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height));
+        s.style.setProperty("--rx", `${((0.5 - fy) * 9).toFixed(2)}deg`);
+        s.style.setProperty("--ry", `${((fx - 0.5) * 11).toFixed(2)}deg`);
+        s.style.setProperty("--gx", `${(fx * 100).toFixed(1)}%`);
+        s.style.setProperty("--gy", `${(fy * 100).toFixed(1)}%`);
+        gallery.style.setProperty("--mx", `${(r.left + r.width / 2).toFixed(0)}px`);
+        gallery.style.setProperty("--my", `${(r.top + r.height / 2).toFixed(0)}px`);
+      });
+      gallery.addEventListener("pointerleave", () => {
+        if (cur) { cur.style.removeProperty("--rx"); cur.style.removeProperty("--ry"); cur = null; }
+      });
+    }
+
     buttons.forEach((b) => {
       const f = b.dataset.filter;
       const n = f === "all" ? shots.length : shots.filter((s) => s.dataset.cat === f).length;

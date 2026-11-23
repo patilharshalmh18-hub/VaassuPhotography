@@ -404,6 +404,62 @@ body.has-hero:not(.menu-open) .site-header:not(.is-scrolled) .nav .btn:hover { b
 .strip-item:hover img { transform: scale(1.05); }
 @media (max-width: 760px) { .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
+/* recent moments as prints hanging from ribbons (JS lays them out and swings them) */
+.strip.is-wall { display: block; position: relative; gap: 0; }
+.wall__rail {
+  position: absolute; left: -18px; right: -18px; height: 9px; z-index: 1; border-radius: 5px;
+  background: linear-gradient(#b48a68, #7a5238 55%, #553723);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 6px 10px -4px rgba(42, 29, 41, .45);
+}
+.wall__rail::before, .wall__rail::after {
+  content: ""; position: absolute; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #c89c78, #6b4630 70%);
+  box-shadow: 0 4px 8px -3px rgba(42, 29, 41, .5);
+}
+.wall__rail::before { left: -8px; }
+.wall__rail::after { right: -8px; }
+.wall__shadows { position: absolute; inset: 0; pointer-events: none; }
+.hang__shadow {
+  position: absolute; top: 0; border-radius: 3px; transform-origin: 50% 0;
+  background: rgba(42, 29, 41, .34); filter: blur(10px); will-change: transform;
+}
+.hang {
+  position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 2;
+  transform-origin: 0 0; will-change: transform; perspective: 900px;
+}
+.hang:hover, .hang:focus-within { z-index: 5 !important; }
+.section:has(.strip.is-wall) { overflow-x: clip; }
+@media (max-width: 560px) { .wall__rail { left: -6px; right: -6px; } }
+.hang__ribbon { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; }
+.hang__ribbon .r1 { fill: none; stroke: #7a3e64; stroke-width: 5; stroke-linecap: round; }
+.hang__ribbon .r2 { fill: none; stroke: rgba(255, 220, 238, .45); stroke-width: 1.2; transform: translateX(-1.2px); }
+.hang__ribbon .knot { fill: #6a3456; }
+
+.strip .print {
+  position: absolute; display: block; overflow: visible;
+  padding: 10px 10px 42px; background: #fbf8f5; color: var(--ink); text-decoration: none;
+  transform-origin: 50% 0; will-change: transform;
+  box-shadow: 0 1px 1px rgba(42, 29, 41, .12), 0 10px 18px -12px rgba(42, 29, 41, .45);
+  transition: scale .45s var(--ease), box-shadow .45s var(--ease);
+}
+.strip .print picture { overflow: hidden; background: var(--paper-2); }
+.strip .print img { aspect-ratio: 4 / 5; transform: none; }
+.strip .print:hover { scale: 1.06; box-shadow: 0 1px 1px rgba(42, 29, 41, .12), 0 22px 36px -16px rgba(42, 29, 41, .55); }
+.strip .print:hover img { transform: none; }
+.print__label { position: absolute; left: 0; right: 0; bottom: 11px; text-align: center; font: italic 400 1.02rem/1 var(--serif); color: #5e4f5b; }
+.print__bow { position: absolute; left: 50%; top: -15px; width: 42px; height: auto; translate: -50% 0; overflow: visible; filter: drop-shadow(0 2px 2px rgba(42, 29, 41, .35)); }
+.print__bow path, .print__bow ellipse { fill: #7a3e64; }
+.print__bow .bow__tail { fill: none; stroke: #7a3e64; stroke-width: 3.2; stroke-linecap: round; }
+.print__bow .bow__fold { fill: none; stroke: rgba(255, 220, 238, .5); stroke-width: 1; }
+/* light falls differently as a print twists on its ribbon */
+.print__sheen { position: absolute; inset: 0; pointer-events: none; }
+.print__sheen::before, .print__sheen::after { content: ""; position: absolute; inset: 0; }
+.print__sheen::before { background: linear-gradient(90deg, rgba(26, 16, 24, .35), rgba(26, 16, 24, 0) 70%); opacity: calc(var(--tw, 0) * 1.6); }
+.print__sheen::after { background: linear-gradient(270deg, rgba(26, 16, 24, .35), rgba(26, 16, 24, 0) 70%); opacity: calc(var(--tw, 0) * -1.6); }
+@media (prefers-color-scheme: dark) {
+  .hang__shadow { background: rgba(0, 0, 0, .55); }
+}
+
 /* ---------- invitation band ---------- */
 .invite { text-align: center; }
 .invite blockquote { margin: 0 auto 2.2rem; max-width: 20em; font: italic 400 var(--step-3)/1.1 var(--serif); letter-spacing: -.01em; }
@@ -620,23 +676,45 @@ body.has-hero:not(.menu-open) .site-header:not(.is-scrolled) .nav .btn:hover { b
 }
 .shot__zoom svg { width: 16px; height: 16px; }
 
+.shot { border-radius: 2px; }
+.shot::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 30%), rgba(255, 255, 255, .28), rgba(255, 255, 255, 0) 45%);
+  opacity: 0; transition: opacity .4s ease;
+}
+/* the dim, softly lit backdrop that falls over the page around a focused photo */
+.gallery::before {
+  content: ""; position: fixed; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(circle 42vmax at var(--mx, 50%) var(--my, 50%), rgba(26, 16, 24, .12), rgba(26, 16, 24, .62));
+  opacity: 0; transition: opacity .5s ease;
+}
+
 @media (hover: hover) and (pointer: fine) {
-  .shot { transition: transform .6s var(--ease), box-shadow .6s var(--ease), z-index 0s linear .6s; }
+  .shot { transition: transform .5s var(--ease), box-shadow .6s var(--ease), border-radius .5s var(--ease), z-index 0s linear .6s; }
   .shot:hover, .shot:focus-within,
   .motion .shot[data-reveal]:hover, .motion .shot[data-reveal]:focus-within {
-    transform: scale(1.07); z-index: 3;
-    box-shadow: 0 30px 60px -22px rgba(42, 29, 41, .6);
-    transition-delay: 0s;
+    transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(1.09);
+    z-index: 3; border-radius: 18px;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, .12),
+      0 18px 30px -12px rgba(26, 16, 24, .45),
+      0 50px 90px -24px rgba(26, 16, 24, .7);
+    transition: transform .35s var(--ease), box-shadow .6s var(--ease), border-radius .5s var(--ease), z-index 0s;
   }
-  .shot:hover img, .shot:focus-within img { scale: 1.06; }
+  .shot:hover::after, .shot:focus-within::after { opacity: 1; }
+  .shot:hover img, .shot:focus-within img { scale: 1.06; filter: contrast(1.05) saturate(1.08); }
   .motion .shot.px:hover img, .motion .shot.px:focus-within img { scale: 1.2; }
   .shot:hover .shot__cap, .shot:focus-within .shot__cap { opacity: 1; translate: none; }
   .shot:hover .shot__zoom, .shot:focus-within .shot__zoom { opacity: 1; scale: 1; }
-  /* spotlight: soften the neighbours while one photo is lifted */
-  .gallery:has(.shot:hover) .shot:not(:hover) img { opacity: .55; filter: saturate(.6); }
+  /* depth of field: everything else falls back, darker and out of focus */
+  .gallery:has(.shot:hover)::before { opacity: 1; }
+  .gallery:has(.shot:hover) .shot:not(:hover) img { filter: blur(5px) saturate(.6) brightness(.85); scale: 1.08; }
+  .motion .gallery:has(.shot:hover) .shot.px:not(:hover) img { scale: 1.16; }
+  .gallery:has(.shot:hover) .shot:not(:hover) { transform: scale(.97); }
 }
 @media (prefers-color-scheme: dark) {
-  .shot:hover, .shot:focus-within { box-shadow: 0 30px 60px -22px rgba(0, 0, 0, .9); }
+  .shot:hover, .shot:focus-within { box-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 0 50px 90px -24px rgba(0, 0, 0, .9); }
+  .gallery::before { background: radial-gradient(circle 42vmax at var(--mx, 50%) var(--my, 50%), rgba(0, 0, 0, .2), rgba(0, 0, 0, .7)); }
 }
 
 /* lightbox: each photo eases in, sliding from the direction you moved */
