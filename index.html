@@ -15,9 +15,9 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bodoni-moda-latin-opsz-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/hero57-800.webp 800w, assets/img/hero57-1400.webp 1400w, assets/img/hero57-2400.webp 2400w" imagesizes="(max-width: 860px) 100vw, 58vw">
+<link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/hero57-800.webp 800w, assets/img/hero57-1400.webp 1400w, assets/img/hero57-2400.webp 2400w" imagesizes="100vw">
 <link rel="stylesheet" href="assets/css/styles.css">
-<script>(function(d){d.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&"IntersectionObserver"in window){d.classList.add("motion");setTimeout(function(){if(!window.__motionReady)d.classList.remove("motion")},3000)}})(document.documentElement)</script>
+<script>(function(d){d.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&"IntersectionObserver"in window){d.classList.add("motion");setTimeout(function(){if(!window.__motionReady)d.classList.remove("motion")},3000);try{if(/[?&]intro\b/.test(location.search)||!sessionStorage.getItem("vpIntro")){sessionStorage.setItem("vpIntro","1");d.classList.add("intro");window.__introTimer=setTimeout(function(){d.classList.add("intro-done")},1950)}}catch(e){}}})(document.documentElement)</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -35,7 +35,44 @@
 }
 </script>
 </head>
-<body>
+<body class="has-hero">
+<div class="intro-screen" id="intro">
+  <svg class="cam" viewBox="0 0 240 170" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="lens-glass" cx="40%" cy="35%" r="75%">
+        <stop offset="0" stop-color="#9b5a85"/><stop offset=".45" stop-color="#4a2240"/><stop offset="1" stop-color="#140b12"/>
+      </radialGradient>
+      <clipPath id="lens-clip"><circle cx="120" cy="104" r="28"/></clipPath>
+    </defs>
+    <g class="cam__button"><rect x="176" y="35" width="28" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="2" pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1s var(--ease) .3s forwards"/></g>
+    <g class="cam__draw" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="14" y="48" width="212" height="110" rx="16" pathLength="1" style="--n:0"/>
+      <path d="M78 48 L90 26 H150 L162 48" pathLength="1" style="--n:1"/>
+      <rect x="30" y="62" width="30" height="16" rx="3" pathLength="1" style="--n:2"/>
+      <path d="M14 76 H44 M196 76 H226" pathLength="1" style="--n:3"/>
+      <circle cx="120" cy="104" r="46" pathLength="1" style="--n:3"/>
+      <circle cx="120" cy="104" r="34" pathLength="1" style="--n:4"/>
+    </g>
+    <circle class="cam__focus" cx="120" cy="104" r="40" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="1.5 4.5" opacity=".55"/>
+    <g class="cam__glass">
+      <circle cx="120" cy="104" r="28" fill="url(#lens-glass)"/>
+      <ellipse cx="110" cy="93" rx="9" ry="5" fill="#fff" opacity=".28" transform="rotate(-30 110 93)"/>
+      <circle cx="131" cy="114" r="2.5" fill="#fff" opacity=".2"/>
+    </g>
+    <g clip-path="url(#lens-clip)">
+      <g class="cam__iris"><circle cx="120" cy="104" r="54" fill="none" stroke="#120a10" stroke-width="0"/></g>
+      <g class="cam__blades" stroke="#d9b3ca" stroke-width="1" opacity="0">
+        <path d="M120 104 L150 80 M120 104 L146 134 M120 104 L102 140 M120 104 L84 110 M120 104 L96 70 M120 104 L134 66"/>
+      </g>
+    </g>
+    <circle class="cam__af" cx="204" cy="66" r="3.2" fill="#9fc19a"/>
+    <rect class="cam__flashwin" x="30" y="62" width="30" height="16" rx="3" fill="#fff"/>
+  </svg>
+  <p class="intro__name" aria-hidden="true">Vassu's<span>Photography</span></p>
+  <div class="intro__frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <button class="intro__skip" type="button">Skip intro</button>
+  <div class="intro__flash"></div>
+</div>
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="site-header">
@@ -55,27 +92,49 @@
 </header>
 
 <main id="main">
-  <section class="hero container" aria-labelledby="hero-title">
-    <div class="hero__grid">
+  <section class="hero" data-carousel aria-roledescription="carousel" aria-label="Featured photographs" style="--slide-ms:6500ms">
+    <div class="hero__slides">
+      <figure class="slide is-active" style="--pos:26% 28%;--origin:30% 30%" data-caption="A seaside maternity session, late summer" role="group" aria-roledescription="slide" aria-label="1 of 5">
+        <picture><source type="image/webp" srcset="assets/img/hero57-800.webp 800w, assets/img/hero57-1400.webp 1400w, assets/img/hero57-2400.webp 2400w" sizes="100vw"><img src="assets/img/hero57-960.jpg" width="2400" height="1700" alt="Expecting mother in a burgundy gown holding flowers on a beach by the sea" fetchpriority="high"></picture>
+      </figure>
+      <figure class="slide" style="--pos:45% 18%;--origin:50% 25%" data-caption="An autumn family session in the woods" role="group" aria-roledescription="slide" aria-label="2 of 5" aria-hidden="true">
+        <picture><source type="image/webp" srcset="assets/img/p16-480.webp 480w, assets/img/p16-960.webp 960w, assets/img/p16-1600.webp 1600w" sizes="100vw"><img src="assets/img/p16-960.jpg" width="1600" height="1407" alt="Parents sitting on a log in autumn woods with their two babies in bear hats" fetchpriority="low" decoding="async"></picture>
+      </figure>
+      <figure class="slide" style="--pos:55% 35%;--origin:45% 40%" data-caption="Giggles in warm window light, at home" role="group" aria-roledescription="slide" aria-label="3 of 5" aria-hidden="true">
+        <picture><source type="image/webp" srcset="assets/img/p48-480.webp 480w, assets/img/p48-960.webp 960w, assets/img/p48-1600.webp 1600w" sizes="100vw"><img src="assets/img/p48-960.jpg" width="1600" height="1200" alt="Baby girl laughing on a bed in warm window light" fetchpriority="low" decoding="async"></picture>
+      </figure>
+      <figure class="slide" style="--pos:62% 45%;--origin:55% 40%" data-caption="A big sister's gift for mum-to-be" role="group" aria-roledescription="slide" aria-label="4 of 5" aria-hidden="true">
+        <picture><source type="image/webp" srcset="assets/img/p55-480.webp 480w, assets/img/p55-960.webp 960w, assets/img/p55-1600.webp 1600w" sizes="100vw"><img src="assets/img/p55-960.jpg" width="1600" height="1067" alt="Little girl handing flowers to her expecting mother under a tree" fetchpriority="low" decoding="async"></picture>
+      </figure>
+      <figure class="slide" style="--pos:50% 55%;--origin:50% 60%" data-caption="Autumn walks, with the dog of course" role="group" aria-roledescription="slide" aria-label="5 of 5" aria-hidden="true">
+        <picture><source type="image/webp" srcset="assets/img/p4-480.webp 480w, assets/img/p4-960.webp 960w, assets/img/p4-1600.webp 1600w" sizes="100vw"><img src="assets/img/p4-960.jpg" width="1600" height="1366" alt="Couple walking their dog through a carpet of autumn leaves" fetchpriority="low" decoding="async"></picture>
+      </figure>
+    </div>
+    <div class="hero__shade"></div>
+    <div class="hero__inner container">
       <div class="hero__text">
         <h1 class="hero__title" id="hero-title"><em><span class="visually-hidden">Vassu's</span><span class="hero__letters" aria-hidden="true"><span style="--i:0">V</span><span style="--i:1">a</span><span style="--i:2">s</span><span style="--i:3">s</span><span style="--i:4">u</span><span style="--i:5">'</span><span style="--i:6">s</span></span></em><span class="hero__word">Photography</span><span class="hero__kind">Maternity, newborn &amp; family portraits</span></h1>
-        <p class="lede">Soft, honest photographs of the people you love — taken slowly, in good light, while you simply enjoy being together.</p>
+        <p class="hero__lede">Soft, honest photographs of the people you love — taken slowly, in good light, while you simply enjoy being together.</p>
         <div class="btn-row">
           <a class="btn" href="contact.html">Book a session</a>
           <a class="btn btn--line" href="portfolio.html">See the portfolio</a>
         </div>
       </div>
-      <figure class="hero__print">
-        <picture>
-          <source type="image/webp" srcset="assets/img/hero57-800.webp 800w, assets/img/hero57-1400.webp 1400w, assets/img/hero57-2400.webp 2400w" sizes="(max-width: 860px) 100vw, 58vw">
-          <img src="assets/img/hero57-960.jpg" width="2400" height="1700" alt="Expecting mother in a burgundy gown holding flowers on a beach by the sea" fetchpriority="high">
-        </picture>
-        <figcaption>A seaside maternity session, late summer</figcaption>
-      </figure>
+      <div class="hero__ui">
+        <p class="hero__caption" aria-live="polite"><span>A seaside maternity session, late summer</span></p>
+        <div class="hero__controls">
+          <span class="hero__count"><b>01</b> / 05</span>
+          <div class="hero__dots"><button class="hero__dot" type="button" aria-label="Show photo 1" aria-current="true"><span></span></button><button class="hero__dot" type="button" aria-label="Show photo 2"><span></span></button><button class="hero__dot" type="button" aria-label="Show photo 3"><span></span></button><button class="hero__dot" type="button" aria-label="Show photo 4"><span></span></button><button class="hero__dot" type="button" aria-label="Show photo 5"><span></span></button></div>
+          <button class="hero__btn hero__prev" type="button" aria-label="Previous photo"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button>
+          <button class="hero__btn hero__next" type="button" aria-label="Next photo"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
+          <button class="hero__btn hero__pause" type="button" aria-label="Pause slideshow"><svg class="i-pause" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx=".6"/><rect x="9.4" y="3" width="2.6" height="10" rx=".6"/></svg><svg class="i-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 3l8 5-8 5z"/></svg></button>
+        </div>
+      </div>
     </div>
+    <a class="hero__scroll" href="#welcome">Scroll</a>
   </section>
 
-  <section class="section section--tint" aria-labelledby="hello">
+  <section class="section section--tint" id="welcome" aria-labelledby="hello">
     <div class="container split">
       <picture data-reveal="img">
         <source type="image/webp" srcset="assets/img/p2-480.webp 480w, assets/img/p2-960.webp 960w, assets/img/p2-972.webp 972w" sizes="(max-width: 760px) 100vw, 42vw">

@@ -8,7 +8,10 @@
   /* ---------- header: border on scroll ---------- */
   const header = $(".site-header");
   if (header) {
-    const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 8);
+    // Over the full-frame hero the header stays transparent until the photo scrolls away.
+    const heroEl = $(".has-hero .hero");
+    const limit = () => (heroEl ? heroEl.offsetHeight - header.offsetHeight - 8 : 8);
+    const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > limit());
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
   }
@@ -72,7 +75,7 @@
 
   // Parallax: oversized images drift gently against the scroll direction.
   if (MOTION) {
-    const heroImg = $(".hero__print img");
+    const heroSlides = $(".hero__slides");
     const hero = $(".hero");
     $$(".shot, .strip-item, .kind__img").forEach((el) => el.classList.add("px"));
     const visible = new Set();
@@ -95,9 +98,9 @@
         const img = $("img", el);
         if (img) img.style.translate = `0 ${(p * -5).toFixed(2)}%`;
       });
-      if (heroImg && hero) {
+      if (heroSlides && hero) {
         const p = Math.max(0, Math.min(1, window.scrollY / hero.offsetHeight));
-        heroImg.style.translate = `0 ${(p * 4.5).toFixed(2)}%`;
+        heroSlides.style.translate = `0 ${(p * 22).toFixed(2)}%`;
       }
     };
     function queue() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
@@ -108,6 +111,102 @@
 
   if (MOTION) $$(".strip-item").forEach((el) => el.setAttribute("data-reveal", "zoom"));
   $$("[data-reveal]").forEach((el) => revealer.observe(el));
+
+  /* ---------- camera intro ---------- */
+  // The timeline itself is CSS; the inline <head> script marks it done after the
+  // flash. Here: let people skip it, and tidy the overlay away afterwards.
+  const intro = $("#intro");
+  if (intro) {
+    const finish = () => {
+      clearTimeout(window.__introTimer);
+      root.classList.add("intro-done");
+    };
+    $(".intro__skip", intro).addEventListener("click", finish);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") finish(); });
+    const cleanup = () => setTimeout(() => intro.remove(), 1000);
+    if (!root.classList.contains("intro")) intro.remove();
+    else if (root.classList.contains("intro-done")) cleanup();
+    else new MutationObserver((_, mo) => {
+      if (root.classList.contains("intro-done")) { mo.disconnect(); cleanup(); }
+    }).observe(root, { attributes: true, attributeFilter: ["class"] });
+  }
+
+  /* ---------- hero carousel ---------- */
+  const carousel = $(".hero[data-carousel]");
+  if (carousel) {
+    const slides = $$(".slide", carousel);
+    const dots = $$(".hero__dot", carousel);
+    const caption = $(".hero__caption", carousel);
+    const count = $(".hero__count b", carousel);
+    const pauseBtn = $(".hero__pause", carousel);
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let i = 0;
+
+    const render = () => {
+      dots.forEach((d, j) => {
+        d.setAttribute("aria-current", String(j === i));
+        d.classList.toggle("is-done", j < i);
+      });
+      const span = document.createElement("span");
+      span.textContent = slides[i].dataset.caption || "";
+      caption.replaceChildren(span);
+      count.textContent = String(i + 1).padStart(2, "0");
+    };
+
+    const go = (n, dir = 1) => {
+      n = (n + slides.length) % slides.length;
+      if (n === i) return;
+      const prev = slides[i];
+      const next = slides[n];
+      i = n;
+      slides.forEach((s) => { if (s !== prev) s.classList.remove("is-leaving"); });
+      prev.classList.remove("is-active", "is-entering");
+      prev.classList.add("is-leaving");
+      prev.setAttribute("aria-hidden", "true");
+      next.dataset.dir = String(dir);
+      next.classList.remove("is-leaving");
+      next.classList.add("is-active");
+      if (!still) next.classList.add("is-entering");
+      next.removeAttribute("aria-hidden");
+      setTimeout(() => { if (!prev.classList.contains("is-active")) prev.classList.remove("is-leaving"); }, 1800);
+      // warm up the photo after this one so its sweep never shows a blank frame
+      const after = $("img", slides[(i + 1) % slides.length]);
+      if (after) after.loading = "eager";
+      render();
+    };
+
+    slides.forEach((s) => s.addEventListener("animationend", (e) => {
+      if (e.target === s && e.animationName.startsWith("wipe")) s.classList.remove("is-entering");
+    }));
+    // Each progress bar is a CSS animation; when the current one fills, move on.
+    dots.forEach((d, j) => {
+      $("span", d).addEventListener("animationend", () => { if (j === i) go(i + 1, 1); });
+      d.addEventListener("click", () => go(j, j > i ? 1 : -1));
+    });
+    $(".hero__prev", carousel).addEventListener("click", () => go(i - 1, -1));
+    $(".hero__next", carousel).addEventListener("click", () => go(i + 1, 1));
+
+    const setPaused = (p) => {
+      carousel.classList.toggle("is-paused", p);
+      pauseBtn.setAttribute("aria-label", p ? "Play slideshow" : "Pause slideshow");
+    };
+    pauseBtn.addEventListener("click", () => setPaused(!carousel.classList.contains("is-paused")));
+    if (still) setPaused(true);
+
+    $(".hero__ui", carousel).addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") go(i - 1, -1);
+      if (e.key === "ArrowRight") go(i + 1, 1);
+    });
+    let sx = null;
+    carousel.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    carousel.addEventListener("touchend", (e) => {
+      if (sx === null) return;
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 50) go(i + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+      sx = null;
+    });
+    render();
+  }
 
   /* ---------- contact links from config ---------- */
   const reach = $("#reach");
