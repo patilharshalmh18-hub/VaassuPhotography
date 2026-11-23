@@ -21,7 +21,7 @@ Open **`assets/js/config.js`** and add your email, phone, WhatsApp number and In
 
 To receive enquiries straight to your inbox, create a free form at [Formspree](https://formspree.io), and paste its URL into `formEndpoint`. Until then, the form prepares the visitor's message for them to send by email, WhatsApp or copy-paste.
 
-When you have a domain, replace `https://vassusphotography.com` in the HTML `<head>` tags, `robots.txt` and `SITE_URL` in `scripts/build.py`.
+When you have a domain, replace `https://vassus-photography.vercel.app` in the HTML `<head>` tags, `robots.txt` and `SITE_URL` in `scripts/build.py`.
 
 ## Adding or changing photos
 

@@ -25,7 +25,7 @@ PHOTOS = json.loads((ROOT / "scripts" / "photos.json").read_text())
 WIDTHS = (480, 960, 1600)          # gallery + lightbox
 HERO_WIDTHS = (800, 1400, 2400)    # hero images
 JPEG_FALLBACK = 960
-SITE_URL = "https://vassusphotography.com"  # change when the domain is live
+SITE_URL = "https://vassus-photography.vercel.app"  # change when the domain is live
 
 CATEGORY_LABEL = {
     "maternity": "Maternity",
