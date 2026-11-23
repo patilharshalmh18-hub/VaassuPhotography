@@ -35,7 +35,7 @@ When you have a domain, replace `https://vassusphotography.com` in the HTML `<he
    ```
 
    This creates 480 / 960 / 1600px WebP versions plus a JPEG fallback in `assets/img/`, regenerates the portfolio gallery and home-page strip, and updates `sitemap.xml`.
-4. Commit and push — the site redeploys automatically.
+4. Commit and push — Vercel redeploys automatically.
 
 The order of photos in `photos.json` is the order they appear in the portfolio. The home-page strip is set by `STRIP` in `scripts/build.py`.
 
@@ -46,9 +46,11 @@ python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
-## Deployment (GitHub Pages)
+## Deployment (Vercel)
 
-`.github/workflows/deploy.yml` publishes the site on every push to `main`. One-time setup: in the repository, go to **Settings → Pages** and set **Source** to **GitHub Actions**. The original photos in `src-images/` and the build scripts are not published.
+The site is hosted on Vercel (team **EireVeda**, project **vaassuphotography**) and connected to this repository: every push to `main` goes live automatically. There is no build step; `vercel.json` sets caching and security headers, and `.vercelignore` keeps the original photos and scripts off the public site.
+
+To use your own domain: Vercel dashboard → project → **Settings → Domains** → add the domain, then follow the DNS instructions shown.
 
 ## Under the hood
 
