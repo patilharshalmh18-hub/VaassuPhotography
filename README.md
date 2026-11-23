@@ -15,11 +15,13 @@ A fast, dependency-free static site: plain HTML, CSS and JavaScript, with respon
 | Contact / booking enquiry | `contact.html` |
 | Not found | `404.html` |
 
-## Before going live — fill in your details
+## Contact details and enquiries
 
-Open **`assets/js/config.js`** and add your email, phone, WhatsApp number and Instagram handle. They appear on the contact page and power the "Open in email" / "Send on WhatsApp" buttons.
+Settings live in **`assets/js/config.js`**.
 
-To receive enquiries straight to your inbox, create a free form at [Formspree](https://formspree.io), and paste its URL into `formEndpoint`. Until then, the form prepares the visitor's message for them to send by email, WhatsApp or copy-paste.
+- Enquiries from the contact form are emailed to **vaishnavi.s.pawar@gmail.com** via [FormSubmit](https://formsubmit.co) (free, no account). The first enquiry sends a one-time **"Activate form"** email to that inbox; click the button in it and every enquiry after that arrives directly, with the visitor's email set as the reply-to address.
+- If sending fails, the visitor is offered an "Open in email" button addressed to Vaishnavi, so no enquiry is lost.
+- Add a phone number, WhatsApp number and Instagram handle in the same file to show them on the contact page.
 
 When you have a domain, replace `https://vassus-photography.vercel.app` in the HTML `<head>` tags, `robots.txt` and `SITE_URL` in `scripts/build.py`.
 

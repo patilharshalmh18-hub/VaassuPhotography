@@ -178,12 +178,25 @@
         btn.disabled = true;
         btn.textContent = "Sending…";
         try {
+          const reachValue = form.reach.value.trim();
+          const payload = {
+            Name: form.name.value.trim(),
+            "Email or phone": reachValue,
+            Session: form.session.value,
+            "Preferred date": form.date.value || "Not given",
+            Message: form.message.value.trim() || "—",
+            _subject: `New enquiry: ${form.session.value} – ${form.name.value.trim()}`,
+            _template: "table",
+            _captcha: "false"
+          };
+          if (reachValue.includes("@")) payload._replyto = reachValue;
           const res = await fetch(CONFIG.formEndpoint, {
             method: "POST",
-            headers: { Accept: "application/json" },
-            body: new FormData(form)
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify(payload)
           });
-          if (!res.ok) throw new Error(String(res.status));
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || String(data.success) === "false") throw new Error(data.message || String(res.status));
           form.hidden = true;
           notice.innerHTML = `<h3>Enquiry sent</h3><p>Thank you, ${form.name.value.trim().split(" ")[0]}. I'll reply within two days to talk dates and ideas.</p>`;
           notice.hidden = false;
