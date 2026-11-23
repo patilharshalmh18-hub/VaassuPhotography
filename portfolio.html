@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Portfolio — Vassu's Photography</title>
 <meta name="description" content="Maternity, newborn, family, kids and pet photographs by Vaishnavi Pawar of Vassu's Photography.">
-<meta name="theme-color" content="#f4eff1">
+
+<meta name="theme-color" content="#221722">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vassu's Photography">
 <meta property="og:title" content="Portfolio — Vassu's Photography">
@@ -16,6 +17,7 @@
 <link rel="preload" href="assets/fonts/bodoni-moda-latin-opsz-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/styles.css">
+<script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -36,9 +38,18 @@
   </div>
 </header>
 <main id="main">
-  <section class="page-head container">
-    <h1>Portfolio</h1>
-    <p class="lede">A collection of recent sessions. Choose a kind of session, or select any photo to see it larger.</p>
+  <section class="page-hero container">
+    <div class="page-hero__grid">
+      <div class="reveal">
+        <p class="kicker">58 photographs</p>
+        <h1>Portfolio</h1>
+        <p class="lede">A collection of recent sessions. Choose a kind of session, or select any photo to see it larger.</p>
+      </div>
+      <div class="page-hero__art" aria-hidden="true">
+        <div class="arch reveal-img"><picture><source type="image/webp" srcset="assets/img/p52-480.webp 480w, assets/img/p52-960.webp 960w, assets/img/p52-1067.webp 1067w" sizes="(max-width: 760px) 44vw, 20vw"><img src="assets/img/p52-960.jpg" width="1067" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
+        <div class="arch reveal-img"><picture><source type="image/webp" srcset="assets/img/p49-480.webp 480w, assets/img/p49-960.webp 960w, assets/img/p49-1600.webp 1600w" sizes="(max-width: 760px) 40vw, 17vw"><img src="assets/img/p49-960.jpg" width="1600" height="1196" alt="" loading="lazy" decoding="async"></picture></div>
+      </div>
+    </div>
   </section>
   <section class="container" style="padding-bottom:clamp(4rem,8vw,7rem)" aria-label="Photo gallery">
     <div class="filters" role="group" aria-label="Show photos of">
@@ -128,6 +139,7 @@
       <p class="site-footer__big">Tell me about the moment you'd like to keep.</p>
       <a class="btn" href="contact.html">Book a session</a>
     </div>
+    <p class="site-footer__mark" aria-hidden="true">Vassu's</p>
     <div class="site-footer__bottom">
       <span>© <span data-year>2026</span> Vaishnavi Pawar, Vassu's Photography</span>
       <ul>
@@ -135,6 +147,8 @@
         <li><a href="about.html">About</a></li>
         <li><a href="packages.html">Packages</a></li>
         <li><a href="contact.html">Contact</a></li>
+        <li><a href="mailto:vaishnavi.s.pawar@gmail.com">Email</a></li>
+        <li><a class="insta" href="https://www.instagram.com/tales_by_vassu/" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a></li>
       </ul>
     </div>
   </div>

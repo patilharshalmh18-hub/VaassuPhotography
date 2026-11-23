@@ -35,7 +35,7 @@ CATEGORY_LABEL = {
 }
 
 # Home-page "recent moments" strip
-STRIP = ["p20", "p17", "p52", "p42", "p48", "p8", "p16", "p46"]
+STRIP = ["p8", "p17", "p52", "p42", "p19", "p24", "p46", "p13", "p49", "p27", "p43", "p5", "p37", "p25"]
 
 
 def save_variants(src: Path, widths: tuple[int, ...]) -> tuple[int, int]:
@@ -122,7 +122,7 @@ def main() -> None:
         p = by_id[sid]
         strip.append(
             f'<a class="strip-item" href="portfolio.html#{p["cat"]}">'
-            + picture(sid, sizes[sid], p["alt"], "(max-width: 760px) 50vw, 25vw")
+            + picture(sid, sizes[sid], p["alt"], "(max-width: 760px) 55vw, 320px")
             + "</a>"
         )
     inject("index.html", "strip", "\n".join(strip))

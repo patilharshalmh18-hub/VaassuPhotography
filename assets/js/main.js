@@ -26,6 +26,84 @@
     $$(".nav a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
   }
 
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- hero slideshow ---------- */
+  const hero = $("#hero");
+  if (hero) {
+    const slides = $$(".hero__slide", hero);
+    const dots = $$(".hero__dots button", hero);
+    const caption = $(".hero__caption", hero);
+    let current = 0;
+    let timer = null;
+    const DURATION = 7000;
+    const go = (i) => {
+      slides[current].classList.remove("is-active");
+      dots[current].removeAttribute("aria-current");
+      current = (i + slides.length) % slides.length;
+      const img = $("img", slides[current]);
+      img.loading = "eager";
+      slides[current].classList.add("is-active");
+      dots[current].setAttribute("aria-current", "true");
+      caption.textContent = slides[current].dataset.caption;
+    };
+    const start = () => {
+      if (reduceMotion) { hero.classList.add("is-paused"); return; }
+      clearInterval(timer);
+      timer = setInterval(() => go(current + 1), DURATION);
+    };
+    dots.forEach((d, i) => d.addEventListener("click", () => { go(i); start(); }));
+    // warm up the next slides once the first has loaded
+    window.addEventListener("load", () => slides.forEach((s) => { $("img", s).loading = "eager"; }));
+    document.addEventListener("visibilitychange", () => (document.hidden ? clearInterval(timer) : start()));
+    start();
+  }
+
+  /* ---------- film strip: duplicate items for a seamless loop ---------- */
+  const marquee = $("#marquee");
+  if (marquee) {
+    $$(".strip-item", marquee).forEach((item) => {
+      const clone = item.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      clone.tabIndex = -1;
+      marquee.appendChild(clone);
+    });
+  }
+
+  /* ---------- scroll reveals ---------- */
+  const revealEls = $$(".reveal, .reveal-img");
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("is-in");
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    revealEls.forEach((el, i) => {
+      if (el.parentElement && el.parentElement.classList.contains("kinds")) el.style.transitionDelay = `${(i % 4) * 90}ms`;
+      io.observe(el);
+    });
+  } else {
+    revealEls.forEach((el) => el.classList.add("is-in"));
+  }
+
+  /* ---------- gentle parallax on full-bleed images ---------- */
+  const parallax = $$("[data-parallax]");
+  if (parallax.length && !reduceMotion) {
+    let ticking = false;
+    const update = () => {
+      parallax.forEach((img) => {
+        const r = img.parentElement.parentElement.getBoundingClientRect();
+        const p = Math.max(-1, Math.min(1, (r.top + r.height / 2 - innerHeight / 2) / innerHeight));
+        img.style.transform = `scale(1.15) translateY(${(p * -6).toFixed(2)}%)`;
+      });
+      ticking = false;
+    };
+    window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  }
+
   /* ---------- footer year ---------- */
   $$("[data-year]").forEach((el) => { el.textContent = new Date().getFullYear(); });
 
@@ -36,7 +114,7 @@
     if (CONFIG.email) items.push(`Email <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>`);
     if (CONFIG.phone) items.push(`Phone <a href="tel:${CONFIG.phone.replace(/\s/g, "")}">${CONFIG.phone}</a>`);
     if (CONFIG.whatsapp) items.push(`WhatsApp <a href="https://wa.me/${CONFIG.whatsapp}">Send a message</a>`);
-    if (CONFIG.instagram) items.push(`Instagram <a href="https://instagram.com/${CONFIG.instagram.replace("@", "")}">@${CONFIG.instagram.replace("@", "")}</a>`);
+    if (CONFIG.instagram) items.push(`Instagram <a href="https://www.instagram.com/${CONFIG.instagram.replace("@", "")}/" rel="noopener" target="_blank">@${CONFIG.instagram.replace("@", "")}</a>`);
     reach.innerHTML = items.map((i) => `<li>${i}</li>`).join("");
     reach.hidden = items.length === 0;
   }

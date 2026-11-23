@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vassu's Photography — Maternity, newborn &amp; family photographer</title>
 <meta name="description" content="Vassu's Photography by Vaishnavi Pawar: relaxed, natural maternity, newborn and family photo sessions from €100.">
-<meta name="theme-color" content="#f4eff1">
+<meta name="theme-color" content="#221722">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vassu's Photography">
 <meta property="og:title" content="Vassu's Photography — Maternity, newborn & family photographer">
@@ -15,8 +15,10 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bodoni-moda-latin-opsz-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/hero57-800.webp 800w, assets/img/hero57-1400.webp 1400w, assets/img/hero57-2400.webp 2400w" imagesizes="(max-width: 860px) 100vw, 58vw">
+<link rel="preload" as="image" type="image/webp" media="(min-width: 701px)" imagesrcset="assets/img/hero57-1400.webp 1400w, assets/img/hero57-2400.webp 2400w" imagesizes="100vw">
+<link rel="preload" as="image" type="image/webp" media="(max-width: 700px)" imagesrcset="assets/img/hero20-800.webp 800w, assets/img/hero20-1400.webp 1400w" imagesizes="100vw">
 <link rel="stylesheet" href="assets/css/styles.css">
+<script>document.documentElement.classList.add("js")</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -25,6 +27,8 @@
   "description": "Maternity, newborn and family photography by Vaishnavi Pawar.",
   "url": "https://vassus-photography.vercel.app/",
   "image": "https://vassus-photography.vercel.app/assets/img/og-image.jpg",
+  "email": "vaishnavi.s.pawar@gmail.com",
+  "sameAs": ["https://www.instagram.com/tales_by_vassu/"],
   "founder": { "@type": "Person", "name": "Vaishnavi Pawar" },
   "priceRange": "€100",
   "makesOffer": [
@@ -34,7 +38,7 @@
 }
 </script>
 </head>
-<body>
+<body class="is-home">
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="site-header">
@@ -54,96 +58,183 @@
 </header>
 
 <main id="main">
-  <section class="hero container" aria-labelledby="hero-title">
-    <div class="hero__grid">
-      <div class="hero__text">
-        <h1 class="hero__title" id="hero-title"><em>Vassu's</em><span class="hero__word">Photography</span><span class="hero__kind">Maternity, newborn &amp; family portraits</span></h1>
-        <p class="lede">Soft, honest photographs of the people you love — taken slowly, in good light, while you simply enjoy being together.</p>
-        <div class="btn-row">
-          <a class="btn" href="contact.html">Book a session</a>
-          <a class="btn btn--line" href="portfolio.html">See the portfolio</a>
+  <!-- Hero: full-screen crossfading slideshow -->
+  <section class="hero" id="hero" aria-label="Featured photographs">
+    <div class="hero__slides">
+      <div class="hero__slide is-active" data-caption="Maternity, by the sea">
+        <picture>
+          <source type="image/webp" media="(max-width: 700px)" srcset="assets/img/hero20-800.webp 800w, assets/img/hero20-1400.webp 1400w" sizes="100vw">
+          <source type="image/webp" srcset="assets/img/hero57-1400.webp 1400w, assets/img/hero57-2400.webp 2400w" sizes="100vw">
+          <img src="assets/img/hero57-960.jpg" width="2400" height="1700" alt="Expecting mother in a burgundy gown holding flowers on a beach" style="object-position:28% 45%" fetchpriority="high">
+        </picture>
+      </div>
+      <div class="hero__slide" data-caption="Family, in the autumn woods">
+        <picture>
+          <source type="image/webp" srcset="assets/img/p16-960.webp 960w, assets/img/p16-1600.webp 1600w" sizes="100vw">
+          <img src="assets/img/p16-960.jpg" width="1600" height="1407" alt="Parents in autumn woods with their two babies in bear hats" style="object-position:50% 40%" loading="lazy">
+        </picture>
+      </div>
+      <div class="hero__slide" data-caption="Maternity, with a big sister">
+        <picture>
+          <source type="image/webp" srcset="assets/img/p55-960.webp 960w, assets/img/p55-1600.webp 1600w" sizes="100vw">
+          <img src="assets/img/p55-960.jpg" width="1600" height="1067" alt="Little girl handing flowers to her expecting mother under a tree" style="object-position:62% 40%" loading="lazy">
+        </picture>
+      </div>
+      <div class="hero__slide" data-caption="A summer walk, just the two of you">
+        <picture>
+          <source type="image/webp" srcset="assets/img/p30-960.webp 960w, assets/img/p30-1600.webp 1600w" sizes="100vw">
+          <img src="assets/img/p30-960.jpg" width="1600" height="1067" alt="Couple strolling along a tree-lined path on a summer day" style="object-position:50% 50%" loading="lazy">
+        </picture>
+      </div>
+    </div>
+
+    <div class="container hero__inner hero__intro">
+      <h1 class="hero__title"><span>Vassu's</span><span class="hero__word">Photography</span></h1>
+      <div class="hero__bottom">
+        <div class="hero__text">
+          <p>Maternity, newborn and family portraits — soft, honest and full of love.</p>
+          <div class="btn-row">
+            <a class="btn btn--light" href="contact.html">Book a session</a>
+            <a class="btn btn--glass" href="portfolio.html">See the portfolio</a>
+          </div>
+        </div>
+        <div class="hero__meta">
+          <p class="hero__caption" aria-live="polite">Maternity, by the sea</p>
+          <div class="hero__dots" role="group" aria-label="Choose photo">
+            <button type="button" aria-label="Photo 1" aria-current="true"></button>
+            <button type="button" aria-label="Photo 2"></button>
+            <button type="button" aria-label="Photo 3"></button>
+            <button type="button" aria-label="Photo 4"></button>
+          </div>
         </div>
       </div>
-      <figure class="hero__print">
-        <picture>
-          <source type="image/webp" srcset="assets/img/hero57-800.webp 800w, assets/img/hero57-1400.webp 1400w, assets/img/hero57-2400.webp 2400w" sizes="(max-width: 860px) 100vw, 58vw">
-          <img src="assets/img/hero57-960.jpg" width="2400" height="1700" alt="Expecting mother in a burgundy gown holding flowers on a beach by the sea" fetchpriority="high">
-        </picture>
-        <figcaption>A seaside maternity session, late summer</figcaption>
-      </figure>
     </div>
+    <span class="scroll-cue" aria-hidden="true"></span>
   </section>
 
-  <section class="section section--tint" aria-labelledby="hello">
-    <div class="container split">
-      <picture>
-        <source type="image/webp" srcset="assets/img/p2-480.webp 480w, assets/img/p2-960.webp 960w, assets/img/p2-972.webp 972w" sizes="(max-width: 760px) 100vw, 42vw">
-        <img src="assets/img/p2-960.jpg" width="972" height="1600" alt="Expecting mother in a lilac saree by a bright window" loading="lazy" decoding="async">
-      </picture>
-      <div class="measure">
-        <h2 id="hello">Hello, I'm Vaishnavi</h2>
-        <p class="lede" style="margin-block:1.2rem 1.5rem">I photograph the quiet, in-between moments — a hand resting on a bump, a toddler's belly laugh, the look that passes between two people.</p>
+  <!-- Welcome -->
+  <section class="section" aria-labelledby="hello">
+    <div class="container welcome">
+      <div class="collage">
+        <div class="arch reveal-img">
+          <picture>
+            <source type="image/webp" srcset="assets/img/p2-480.webp 480w, assets/img/p2-960.webp 960w, assets/img/p2-972.webp 972w" sizes="(max-width: 860px) 80vw, 45vw">
+            <img src="assets/img/p2-960.jpg" width="972" height="1600" alt="Expecting mother in a lilac saree by a bright window" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="collage__small reveal">
+          <picture>
+            <source type="image/webp" srcset="assets/img/p48-480.webp 480w, assets/img/p48-960.webp 960w" sizes="(max-width: 860px) 40vw, 22vw">
+            <img src="assets/img/p48-960.jpg" width="1600" height="1200" alt="Baby girl laughing on a bed in warm window light" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <p class="collage__badge">Sessions from €100</p>
+      </div>
+      <div class="measure reveal">
+        <p class="kicker">Hello, and welcome</p>
+        <h2 id="hello">I'm Vaishnavi, and I photograph the moments in between</h2>
+        <p class="lede" style="margin-block:1.4rem 1.5rem">A hand resting on a bump, a toddler's belly laugh, the look that passes between two people.</p>
         <p>Sessions with me are relaxed and unhurried. I'll guide you gently into easy, natural poses and take care of the light and the little details, so you can stop worrying about the camera and just be yourselves.</p>
-        <p>You'll come away with photographs that feel like you: warm, natural and made to last.</p>
+        <div class="facts">
+          <div><b>€100</b><span>per session</span></div>
+          <div><b>Outdoors</b><span>or in your home</span></div>
+          <div><b>Private</b><span>online gallery</span></div>
+        </div>
         <p class="signature">Vaishnavi</p>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="kinds-title">
+  <!-- What I photograph -->
+  <section class="section section--tint" aria-labelledby="kinds-title">
     <div class="container">
-      <div class="section-head">
-        <h2 id="kinds-title">What I photograph</h2>
+      <div class="section-head reveal">
+        <div><p class="kicker">Sessions</p><h2 id="kinds-title">What I photograph</h2></div>
         <p class="lede">Every chapter of a growing family, from the first bump to the grandparents.</p>
       </div>
       <div class="kinds">
-        <a class="kind" href="portfolio.html#maternity">
-          <div class="kind__img"><picture><source type="image/webp" srcset="assets/img/p53-480.webp 480w, assets/img/p53-960.webp 960w" sizes="(max-width: 860px) 50vw, 25vw"><img src="assets/img/p53-960.jpg" width="1066" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
-          <h3>Maternity</h3><p>Celebrating the wait, solo or together</p>
+        <a class="kind reveal" href="portfolio.html#maternity">
+          <div class="arch"><picture><source type="image/webp" srcset="assets/img/p53-480.webp 480w, assets/img/p53-960.webp 960w" sizes="(max-width: 900px) 50vw, 25vw"><img src="assets/img/p53-960.jpg" width="1066" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
+          <div class="kind__label"><h3>Maternity</h3><p>Celebrating the wait</p><span class="kind__more">See maternity photos</span></div>
         </a>
-        <a class="kind" href="portfolio.html#newborn">
-          <div class="kind__img"><picture><source type="image/webp" srcset="assets/img/p40-480.webp 480w, assets/img/p40-960.webp 960w" sizes="(max-width: 860px) 50vw, 25vw"><img src="assets/img/p40-960.jpg" width="1067" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
-          <h3>Newborn</h3><p>Those first tiny, sleepy weeks</p>
+        <a class="kind reveal" href="portfolio.html#newborn">
+          <div class="arch"><picture><source type="image/webp" srcset="assets/img/p40-480.webp 480w, assets/img/p40-960.webp 960w" sizes="(max-width: 900px) 50vw, 25vw"><img src="assets/img/p40-960.jpg" width="1067" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
+          <div class="kind__label"><h3>Newborn</h3><p>Those first sleepy weeks</p><span class="kind__more">See newborn photos</span></div>
         </a>
-        <a class="kind" href="portfolio.html#family">
-          <div class="kind__img"><picture><source type="image/webp" srcset="assets/img/p17-480.webp 480w, assets/img/p17-960.webp 960w" sizes="(max-width: 860px) 50vw, 25vw"><img src="assets/img/p17-960.jpg" width="1067" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
-          <h3>Family</h3><p>Parents, kids and grandparents</p>
+        <a class="kind reveal" href="portfolio.html#family">
+          <div class="arch"><picture><source type="image/webp" srcset="assets/img/p17-480.webp 480w, assets/img/p17-960.webp 960w" sizes="(max-width: 900px) 50vw, 25vw"><img src="assets/img/p17-960.jpg" width="1067" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
+          <div class="kind__label"><h3>Family</h3><p>Parents, kids, grandparents</p><span class="kind__more">See family photos</span></div>
         </a>
-        <a class="kind" href="portfolio.html#kids">
-          <div class="kind__img"><picture><source type="image/webp" srcset="assets/img/p15-480.webp 480w, assets/img/p15-960.webp 960w" sizes="(max-width: 860px) 50vw, 25vw"><img src="assets/img/p15-960.jpg" width="1206" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
-          <h3>Kids &amp; pets</h3><p>Giggles, mischief and four-legged family</p>
+        <a class="kind reveal" href="portfolio.html#kids">
+          <div class="arch"><picture><source type="image/webp" srcset="assets/img/p15-480.webp 480w, assets/img/p15-960.webp 960w" sizes="(max-width: 900px) 50vw, 25vw"><img src="assets/img/p15-960.jpg" width="1206" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
+          <div class="kind__label"><h3>Kids &amp; pets</h3><p>Giggles and four-legged family</p><span class="kind__more">See kids &amp; pets photos</span></div>
         </a>
       </div>
     </div>
   </section>
 
-  <section class="section section--tint" aria-labelledby="recent-title">
-    <div class="container">
-      <div class="section-head">
-        <h2 id="recent-title">Recent moments</h2>
-        <a class="btn btn--line" href="portfolio.html">See all photos</a>
-      </div>
-      <div class="strip">
+  <!-- Film strip -->
+  <section class="section" style="padding-bottom:clamp(3rem,6vw,5rem)" aria-labelledby="recent-title">
+    <div class="container section-head reveal" style="margin-bottom:1rem">
+      <div><p class="kicker">From recent sessions</p><h2 id="recent-title">Moments I've loved</h2></div>
+      <div class="btn-row"><a class="btn btn--line" href="portfolio.html">See all 58 photos</a><a class="btn insta" href="https://www.instagram.com/tales_by_vassu/" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Follow @tales_by_vassu</a></div>
+    </div>
+    <div class="marquee">
+      <div class="marquee__track" id="marquee">
 <!-- strip:start -->
-<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p20-480.webp 480w, assets/img/p20-960.webp 960w, assets/img/p20-1067.webp 1067w" sizes="(max-width: 760px) 50vw, 25vw"><img src="assets/img/p20-960.jpg" width="1067" height="1600" alt="Expecting mother in a flowing peach gown, the skirt caught mid-swirl" loading="lazy" decoding="async"></picture></a>
-<a class="strip-item" href="portfolio.html#family"><picture><source type="image/webp" srcset="assets/img/p17-480.webp 480w, assets/img/p17-960.webp 960w, assets/img/p17-1067.webp 1067w" sizes="(max-width: 760px) 50vw, 25vw"><img src="assets/img/p17-960.jpg" width="1067" height="1600" alt="Mother and father holding their two little ones among autumn leaves" loading="lazy" decoding="async"></picture></a>
-<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p52-480.webp 480w, assets/img/p52-960.webp 960w, assets/img/p52-1067.webp 1067w" sizes="(max-width: 760px) 50vw, 25vw"><img src="assets/img/p52-960.jpg" width="1067" height="1600" alt="Black and white portrait of a husband kissing his wife&#x27;s forehead" loading="lazy" decoding="async"></picture></a>
-<a class="strip-item" href="portfolio.html#newborn"><picture><source type="image/webp" srcset="assets/img/p42-480.webp 480w, assets/img/p42-960.webp 960w, assets/img/p42-1067.webp 1067w" sizes="(max-width: 760px) 50vw, 25vw"><img src="assets/img/p42-960.jpg" width="1067" height="1600" alt="Family in white gathered close around a newborn baby" loading="lazy" decoding="async"></picture></a>
-<a class="strip-item" href="portfolio.html#kids"><picture><source type="image/webp" srcset="assets/img/p48-480.webp 480w, assets/img/p48-960.webp 960w, assets/img/p48-1600.webp 1600w" sizes="(max-width: 760px) 50vw, 25vw"><img src="assets/img/p48-960.jpg" width="1600" height="1200" alt="Baby girl laughing on a bed in warm window light" loading="lazy" decoding="async"></picture></a>
-<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p8-480.webp 480w, assets/img/p8-960.webp 960w, assets/img/p8-1066.webp 1066w" sizes="(max-width: 760px) 50vw, 25vw"><img src="assets/img/p8-960.jpg" width="1066" height="1600" alt="Couple in traditional dress, he kisses her forehead as she holds her bump" loading="lazy" decoding="async"></picture></a>
-<a class="strip-item" href="portfolio.html#family"><picture><source type="image/webp" srcset="assets/img/p16-480.webp 480w, assets/img/p16-960.webp 960w, assets/img/p16-1600.webp 1600w" sizes="(max-width: 760px) 50vw, 25vw"><img src="assets/img/p16-960.jpg" width="1600" height="1407" alt="Parents sitting on a log in autumn woods with their two babies in bear hats" loading="lazy" decoding="async"></picture></a>
-<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p46-480.webp 480w, assets/img/p46-960.webp 960w, assets/img/p46-1200.webp 1200w" sizes="(max-width: 760px) 50vw, 25vw"><img src="assets/img/p46-960.jpg" width="1200" height="1600" alt="Heart-shaped shadow made by hands on a baby bump in a pink dress" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p8-480.webp 480w, assets/img/p8-960.webp 960w, assets/img/p8-1066.webp 1066w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p8-960.jpg" width="1066" height="1600" alt="Couple in traditional dress, he kisses her forehead as she holds her bump" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#family"><picture><source type="image/webp" srcset="assets/img/p17-480.webp 480w, assets/img/p17-960.webp 960w, assets/img/p17-1067.webp 1067w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p17-960.jpg" width="1067" height="1600" alt="Mother and father holding their two little ones among autumn leaves" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p52-480.webp 480w, assets/img/p52-960.webp 960w, assets/img/p52-1067.webp 1067w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p52-960.jpg" width="1067" height="1600" alt="Black and white portrait of a husband kissing his wife&#x27;s forehead" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#newborn"><picture><source type="image/webp" srcset="assets/img/p42-480.webp 480w, assets/img/p42-960.webp 960w, assets/img/p42-1067.webp 1067w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p42-960.jpg" width="1067" height="1600" alt="Family in white gathered close around a newborn baby" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p19-480.webp 480w, assets/img/p19-960.webp 960w, assets/img/p19-1067.webp 1067w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p19-960.jpg" width="1067" height="1600" alt="Expecting mother in an ivory off-shoulder gown leaning against a stone wall" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#family"><picture><source type="image/webp" srcset="assets/img/p24-480.webp 480w, assets/img/p24-960.webp 960w, assets/img/p24-1067.webp 1067w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p24-960.jpg" width="1067" height="1600" alt="Father lifting his giggling toddler at home" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p46-480.webp 480w, assets/img/p46-960.webp 960w, assets/img/p46-1200.webp 1200w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p46-960.jpg" width="1200" height="1600" alt="Heart-shaped shadow made by hands on a baby bump in a pink dress" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p13-480.webp 480w, assets/img/p13-960.webp 960w, assets/img/p13-1036.webp 1036w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p13-960.jpg" width="1036" height="1600" alt="Husband kneeling to kiss his wife&#x27;s bump in a garden" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#kids"><picture><source type="image/webp" srcset="assets/img/p49-480.webp 480w, assets/img/p49-960.webp 960w, assets/img/p49-1600.webp 1600w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p49-960.jpg" width="1600" height="1196" alt="Black and white portrait of a baby in a striped bear hoodie" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p27-480.webp 480w, assets/img/p27-960.webp 960w, assets/img/p27-1067.webp 1067w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p27-960.jpg" width="1067" height="1600" alt="Smiling expecting mother in black holding up a strip of scan photos" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#newborn"><picture><source type="image/webp" srcset="assets/img/p43-480.webp 480w, assets/img/p43-960.webp 960w, assets/img/p43-1067.webp 1067w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p43-960.jpg" width="1067" height="1600" alt="Black and white portrait of parents and big sister welcoming a newborn" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#kids"><picture><source type="image/webp" srcset="assets/img/p5-480.webp 480w, assets/img/p5-960.webp 960w, assets/img/p5-1067.webp 1067w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p5-960.jpg" width="1067" height="1600" alt="Curly-haired dog in a bandana leaping in the autumn grass" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#maternity"><picture><source type="image/webp" srcset="assets/img/p37-480.webp 480w, assets/img/p37-960.webp 960w, assets/img/p37-1067.webp 1067w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p37-960.jpg" width="1067" height="1600" alt="Couple laughing together, she wears a mum-to-be sash" loading="lazy" decoding="async"></picture></a>
+<a class="strip-item" href="portfolio.html#family"><picture><source type="image/webp" srcset="assets/img/p25-480.webp 480w, assets/img/p25-960.webp 960w, assets/img/p25-1067.webp 1067w" sizes="(max-width: 760px) 55vw, 320px"><img src="assets/img/p25-960.jpg" width="1067" height="1600" alt="Mother kissing her baby boy on a blue sofa" loading="lazy" decoding="async"></picture></a>
 <!-- strip:end -->
       </div>
     </div>
   </section>
 
-  <section class="section invite" aria-label="Book a session">
-    <div class="container">
+  <!-- Experience -->
+  <section class="section section--night" aria-labelledby="exp-title">
+    <div class="container experience">
+      <div class="arch reveal-img">
+        <picture>
+          <source type="image/webp" srcset="assets/img/p20-480.webp 480w, assets/img/p20-960.webp 960w, assets/img/p20-1067.webp 1067w" sizes="(max-width: 900px) 90vw, 38vw">
+          <img src="assets/img/p20-960.jpg" width="1067" height="1600" alt="Expecting mother in a flowing peach gown, the skirt caught mid-swirl" loading="lazy" decoding="async">
+        </picture>
+      </div>
+      <div class="reveal">
+        <p class="kicker">The experience</p>
+        <h2 id="exp-title">Easy from the first message to the final gallery</h2>
+        <ol class="steps">
+          <li><h3>Get in touch</h3><p>Tell me your dates and the session you'd like.</p></li>
+          <li><h3>Plan together</h3><p>We pick a spot with lovely light, and I share outfit ideas.</p></li>
+          <li><h3>Your session</h3><p>Unhurried, gently guided, with breaks for little ones.</p></li>
+          <li><h3>Your gallery</h3><p>Edited photos in a private online gallery to download and share.</p></li>
+        </ol>
+        <div class="btn-row"><a class="btn btn--light" href="packages.html">See packages</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full-bleed invitation -->
+  <section class="feature" aria-label="Book a session">
+    <picture>
+      <source type="image/webp" srcset="assets/img/p21-960.webp 960w, assets/img/p21-1130.webp 1130w" sizes="100vw">
+      <img src="assets/img/p21-960.jpg" width="1130" height="1600" alt="" loading="lazy" decoding="async" data-parallax style="object-position:50% 35%">
+    </picture>
+    <div class="container reveal">
       <blockquote>Some moments only happen once. Let's keep them.</blockquote>
       <div class="btn-row">
-        <a class="btn" href="contact.html">Book a session</a>
-        <a class="btn btn--line" href="packages.html">See packages</a>
+        <a class="btn btn--light" href="contact.html">Book a session</a>
+        <a class="btn btn--glass" href="packages.html">See packages</a>
       </div>
     </div>
   </section>
@@ -155,6 +246,7 @@
       <p class="site-footer__big">Tell me about the moment you'd like to keep.</p>
       <a class="btn" href="contact.html">Book a session</a>
     </div>
+    <p class="site-footer__mark" aria-hidden="true">Vassu's</p>
     <div class="site-footer__bottom">
       <span>© <span data-year>2026</span> Vaishnavi Pawar, Vassu's Photography</span>
       <ul>
@@ -162,6 +254,8 @@
         <li><a href="about.html">About</a></li>
         <li><a href="packages.html">Packages</a></li>
         <li><a href="contact.html">Contact</a></li>
+        <li><a href="mailto:vaishnavi.s.pawar@gmail.com">Email</a></li>
+        <li><a class="insta" href="https://www.instagram.com/tales_by_vassu/" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a></li>
       </ul>
     </div>
   </div>

@@ -11,6 +11,6 @@ window.SITE_CONFIG = {
   email: "vaishnavi.s.pawar@gmail.com",
   phone: "",          // e.g. "+353 87 123 4567"
   whatsapp: "",       // number in international format, digits only, e.g. "353871234567"
-  instagram: "",      // e.g. "vassusphotography"
+  instagram: "tales_by_vassu",
   formEndpoint: "https://formsubmit.co/ajax/vaishnavi.s.pawar@gmail.com"
 };
