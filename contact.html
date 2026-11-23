@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a session — Vassu's Photography</title>
+<meta name="description" content="Enquire about a maternity, newborn or family photo session with Vaishnavi Pawar of Vassu's Photography.">
+<meta name="theme-color" content="#f4eff1">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vassu's Photography">
+<meta property="og:title" content="Book a session — Vassu's Photography">
+<meta property="og:description" content="Enquire about a maternity, newborn or family photo session with Vaishnavi Pawar of Vassu's Photography.">
+<meta property="og:image" content="https://vassusphotography.com/assets/img/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/bodoni-moda-latin-opsz-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark" href="./" aria-label="Vassu's Photography, home"><span class="wordmark__name">Vassu's</span><span class="wordmark__sub">Photography</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu"><span></span><span></span><span></span></button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul class="nav__list">
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="packages.html">Packages</a></li>
+        <li><a href="contact.html" aria-current="page">Contact</a></li>
+      </ul>
+      <a class="btn" href="contact.html">Book a session</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <section class="page-head container split" style="align-items:start;padding-bottom:clamp(4rem,8vw,7rem)">
+    <picture><source type="image/webp" srcset="assets/img/p40-480.webp 480w, assets/img/p40-960.webp 960w, assets/img/p40-1067.webp 1067w" sizes="(max-width: 760px) 100vw, 42vw"><img src="assets/img/p40-960.jpg" width="1067" height="1600" alt="New parents in white smiling down at their newborn" loading="lazy" decoding="async"></picture>
+    <div class="measure">
+      <h1>Let's plan your session</h1>
+      <p class="lede">Tell me a little about you and the photos you have in mind. I'll reply within two days.</p>
+
+      <form class="form" id="enquiry" action="#" method="post" novalidate>
+        <div class="form__row">
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" autocomplete="name" required aria-describedby="f-name-error">
+            <span class="error" id="f-name-error" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="f-reach">Email or phone</label>
+            <input id="f-reach" name="reach" autocomplete="email" required aria-describedby="f-reach-error">
+            <span class="error" id="f-reach-error" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="form__row">
+          <div class="field">
+            <label for="f-session">Session</label>
+            <select id="f-session" name="session">
+              <option>Maternity session</option>
+              <option>Newborn session</option>
+              <option>Family session</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-date">Preferred date (optional)</label>
+            <input id="f-date" name="date" type="date">
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-message">Anything else? (optional)</label>
+          <textarea id="f-message" name="message" placeholder="Due date, who'll be in the photos, location ideas…"></textarea>
+        </div>
+        <div class="hp" aria-hidden="true"><label for="f-website">Leave this empty</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div><button class="btn" type="submit">Send enquiry</button></div>
+      </form>
+      <div class="notice" id="notice" tabindex="-1" hidden></div>
+      <ul class="reach" id="reach" hidden></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <p class="site-footer__big">Tell me about the moment you'd like to keep.</p>
+      <a class="btn" href="contact.html">Book a session</a>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© <span data-year>2026</span> Vaishnavi Pawar, Vassu's Photography</span>
+      <ul>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="packages.html">Packages</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
