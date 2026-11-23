@@ -17,6 +17,7 @@
 <link rel="preload" href="assets/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/hero57-800.webp 800w, assets/img/hero57-1400.webp 1400w, assets/img/hero57-2400.webp 2400w" imagesizes="(max-width: 860px) 100vw, 58vw">
 <link rel="stylesheet" href="assets/css/styles.css">
+<script>(function(d){d.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&"IntersectionObserver"in window){d.classList.add("motion");setTimeout(function(){if(!window.__motionReady)d.classList.remove("motion")},3000)}})(document.documentElement)</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -57,7 +58,7 @@
   <section class="hero container" aria-labelledby="hero-title">
     <div class="hero__grid">
       <div class="hero__text">
-        <h1 class="hero__title" id="hero-title"><em>Vassu's</em><span class="hero__word">Photography</span><span class="hero__kind">Maternity, newborn &amp; family portraits</span></h1>
+        <h1 class="hero__title" id="hero-title"><em><span class="visually-hidden">Vassu's</span><span class="hero__letters" aria-hidden="true"><span style="--i:0">V</span><span style="--i:1">a</span><span style="--i:2">s</span><span style="--i:3">s</span><span style="--i:4">u</span><span style="--i:5">'</span><span style="--i:6">s</span></span></em><span class="hero__word">Photography</span><span class="hero__kind">Maternity, newborn &amp; family portraits</span></h1>
         <p class="lede">Soft, honest photographs of the people you love — taken slowly, in good light, while you simply enjoy being together.</p>
         <div class="btn-row">
           <a class="btn" href="contact.html">Book a session</a>
@@ -76,40 +77,40 @@
 
   <section class="section section--tint" aria-labelledby="hello">
     <div class="container split">
-      <picture>
+      <picture data-reveal="img">
         <source type="image/webp" srcset="assets/img/p2-480.webp 480w, assets/img/p2-960.webp 960w, assets/img/p2-972.webp 972w" sizes="(max-width: 760px) 100vw, 42vw">
         <img src="assets/img/p2-960.jpg" width="972" height="1600" alt="Expecting mother in a lilac saree by a bright window" loading="lazy" decoding="async">
       </picture>
       <div class="measure">
-        <h2 id="hello">Hello, I'm Vaishnavi</h2>
-        <p class="lede" style="margin-block:1.2rem 1.5rem">I photograph the quiet, in-between moments — a hand resting on a bump, a toddler's belly laugh, the look that passes between two people.</p>
-        <p>Sessions with me are relaxed and unhurried. I'll guide you gently into easy, natural poses and take care of the light and the little details, so you can stop worrying about the camera and just be yourselves.</p>
-        <p>You'll come away with photographs that feel like you: warm, natural and made to last.</p>
-        <p class="signature">Vaishnavi</p>
+        <h2 id="hello" data-reveal>Hello, I'm Vaishnavi</h2>
+        <p class="lede" style="margin-block:1.2rem 1.5rem" data-reveal>I photograph the quiet, in-between moments — a hand resting on a bump, a toddler's belly laugh, the look that passes between two people.</p>
+        <p data-reveal>Sessions with me are relaxed and unhurried. I'll guide you gently into easy, natural poses and take care of the light and the little details, so you can stop worrying about the camera and just be yourselves.</p>
+        <p data-reveal>You'll come away with photographs that feel like you: warm, natural and made to last.</p>
+        <p class="signature" data-reveal>Vaishnavi</p>
       </div>
     </div>
   </section>
 
   <section class="section" aria-labelledby="kinds-title">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head" data-reveal>
         <h2 id="kinds-title">What I photograph</h2>
         <p class="lede">Every chapter of a growing family, from the first bump to the grandparents.</p>
       </div>
       <div class="kinds">
-        <a class="kind" href="portfolio.html#maternity">
+        <a class="kind" data-reveal href="portfolio.html#maternity">
           <div class="kind__img"><picture><source type="image/webp" srcset="assets/img/p53-480.webp 480w, assets/img/p53-960.webp 960w" sizes="(max-width: 860px) 50vw, 25vw"><img src="assets/img/p53-960.jpg" width="1066" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
           <h3>Maternity</h3><p>Celebrating the wait, solo or together</p>
         </a>
-        <a class="kind" href="portfolio.html#newborn">
+        <a class="kind" data-reveal href="portfolio.html#newborn">
           <div class="kind__img"><picture><source type="image/webp" srcset="assets/img/p40-480.webp 480w, assets/img/p40-960.webp 960w" sizes="(max-width: 860px) 50vw, 25vw"><img src="assets/img/p40-960.jpg" width="1067" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
           <h3>Newborn</h3><p>Those first tiny, sleepy weeks</p>
         </a>
-        <a class="kind" href="portfolio.html#family">
+        <a class="kind" data-reveal href="portfolio.html#family">
           <div class="kind__img"><picture><source type="image/webp" srcset="assets/img/p17-480.webp 480w, assets/img/p17-960.webp 960w" sizes="(max-width: 860px) 50vw, 25vw"><img src="assets/img/p17-960.jpg" width="1067" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
           <h3>Family</h3><p>Parents, kids and grandparents</p>
         </a>
-        <a class="kind" href="portfolio.html#kids">
+        <a class="kind" data-reveal href="portfolio.html#kids">
           <div class="kind__img"><picture><source type="image/webp" srcset="assets/img/p15-480.webp 480w, assets/img/p15-960.webp 960w" sizes="(max-width: 860px) 50vw, 25vw"><img src="assets/img/p15-960.jpg" width="1206" height="1600" alt="" loading="lazy" decoding="async"></picture></div>
           <h3>Kids &amp; pets</h3><p>Giggles, mischief and four-legged family</p>
         </a>
@@ -119,7 +120,7 @@
 
   <section class="section section--tint" aria-labelledby="recent-title">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head" data-reveal>
         <h2 id="recent-title">Recent moments</h2>
         <a class="btn btn--line" href="portfolio.html">See all photos</a>
       </div>
@@ -140,8 +141,8 @@
 
   <section class="section invite" aria-label="Book a session">
     <div class="container">
-      <blockquote>Some moments only happen once. Let's keep them.</blockquote>
-      <div class="btn-row">
+      <blockquote data-reveal>Some moments only happen once. Let's keep them.</blockquote>
+      <div class="btn-row" data-reveal>
         <a class="btn" href="contact.html">Book a session</a>
         <a class="btn btn--line" href="packages.html">See packages</a>
       </div>

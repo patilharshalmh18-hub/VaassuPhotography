@@ -29,6 +29,86 @@
   /* ---------- footer year ---------- */
   $$("[data-year]").forEach((el) => { el.textContent = new Date().getFullYear(); });
 
+  /* ---------- motion: scroll reveals + parallax ---------- */
+  const root = document.documentElement;
+  const MOTION = root.classList.contains("motion");
+  window.__motionReady = true;
+
+  // Reveal [data-reveal] elements as they scroll in; ones arriving together stagger.
+  const revealer = (() => {
+    if (!MOTION) return { observe() {}, replay() {} };
+    const io = new IntersectionObserver((entries) => {
+      let n = 0;
+      entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left)
+        .forEach((e) => {
+          const el = proxies.get(e.target) || e.target;
+          proxies.delete(e.target);
+          el.style.setProperty("--d", `${Math.min(n++ * 0.09, 0.54)}s`);
+          el.classList.add("is-in");
+          io.unobserve(e.target);
+        });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    // A fully clipped element has no visible area, so the observer would never
+    // see it arrive: watch its parent instead.
+    const proxies = new Map();
+    const observe = (el) => {
+      if (el.dataset.reveal === "img" && el.parentElement) {
+        proxies.set(el.parentElement, el);
+        io.observe(el.parentElement);
+      } else io.observe(el);
+    };
+    // Hide again instantly, then let the observer bring it back in.
+    const replay = (el) => {
+      el.classList.add("no-anim");
+      el.classList.remove("is-in");
+      void el.offsetWidth;
+      el.classList.remove("no-anim");
+      observe(el);
+    };
+    return { observe, replay };
+  })();
+
+  // Parallax: oversized images drift gently against the scroll direction.
+  if (MOTION) {
+    const heroImg = $(".hero__print img");
+    const hero = $(".hero");
+    $$(".shot, .strip-item, .kind__img").forEach((el) => el.classList.add("px"));
+    const visible = new Set();
+    const vio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
+      queue();
+    }, { rootMargin: "15% 0px" });
+    $$(".px").forEach((el) => vio.observe(el));
+
+    let ticking = false;
+    const frame = () => {
+      ticking = false;
+      const vh = window.innerHeight;
+      const reads = [...visible].map((el) => {
+        const r = el.getBoundingClientRect();
+        const p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+        return [el, Math.max(-1, Math.min(1, p))];
+      });
+      reads.forEach(([el, p]) => {
+        const img = $("img", el);
+        if (img) img.style.translate = `0 ${(p * -5).toFixed(2)}%`;
+      });
+      if (heroImg && hero) {
+        const p = Math.max(0, Math.min(1, window.scrollY / hero.offsetHeight));
+        heroImg.style.translate = `0 ${(p * 4.5).toFixed(2)}%`;
+      }
+    };
+    function queue() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener("scroll", queue, { passive: true });
+    window.addEventListener("resize", queue, { passive: true });
+    queue();
+  }
+
+  if (MOTION) $$(".strip-item").forEach((el) => el.setAttribute("data-reveal", "zoom"));
+  $$("[data-reveal]").forEach((el) => revealer.observe(el));
+
   /* ---------- contact links from config ---------- */
   const reach = $("#reach");
   if (reach) {
@@ -46,6 +126,19 @@
   if (gallery) {
     const shots = $$(".shot", gallery);
     const buttons = $$(".filters button");
+
+    // Hover captions (decorative: the link already carries the description)
+    const labels = Object.fromEntries(buttons.map((b) => [b.dataset.filter, b.textContent.trim()]));
+    shots.forEach((s) => {
+      const a = $("a", s);
+      const alt = $("img", s).alt;
+      a.insertAdjacentHTML("beforeend",
+        `<span class="shot__zoom" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5M7 4.5v5M4.5 7h5"/></svg></span>` +
+        `<span class="shot__cap" aria-hidden="true"><span class="shot__tag"></span><span class="shot__alt"></span></span>`);
+      $(".shot__tag", a).textContent = labels[s.dataset.cat] || "";
+      $(".shot__alt", a).textContent = alt;
+      if (MOTION) { s.setAttribute("data-reveal", ""); revealer.observe(s); }
+    });
     buttons.forEach((b) => {
       const f = b.dataset.filter;
       const n = f === "all" ? shots.length : shots.filter((s) => s.dataset.cat === f).length;
@@ -55,7 +148,10 @@
       if (!buttons.some((b) => b.dataset.filter === f)) f = "all";
       buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === f)));
       shots.forEach((s) => { s.hidden = f !== "all" && s.dataset.cat !== f; });
-      if (push) history.replaceState(null, "", f === "all" ? location.pathname : `#${f}`);
+      if (push) {
+        history.replaceState(null, "", f === "all" ? location.pathname : `#${f}`);
+        if (MOTION) shots.filter((s) => !s.hidden).forEach((s) => revealer.replay(s));
+      }
       $("#gallery-status").textContent = `Showing ${shots.filter((s) => !s.hidden).length} photos`;
     };
     buttons.forEach((b) => b.addEventListener("click", () => apply(b.dataset.filter, true)));
@@ -71,9 +167,12 @@
     let idx = 0;
     let lastFocus = null;
 
-    const show = () => {
+    img.addEventListener("load", () => img.classList.add("is-in"));
+    const show = (dir = 0) => {
       const a = list[idx];
       const thumb = $("img", a);
+      img.classList.remove("is-in");
+      img.style.setProperty("--dx", dir);
       img.src = a.getAttribute("href");
       img.alt = thumb.alt;
       caption.textContent = thumb.alt;
@@ -91,7 +190,7 @@
       show();
       lb.showModal();
     };
-    const step = (d) => { idx = (idx + d + list.length) % list.length; show(); };
+    const step = (d) => { idx = (idx + d + list.length) % list.length; show(d); };
 
     gallery.addEventListener("click", (e) => {
       const a = e.target.closest("a");
